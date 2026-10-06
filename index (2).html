@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reem Amro | Portfolio</title>
+  <meta name="description" content="Reem Amro, Electrical and Computer Engineering student at UC Berkeley. Projects, leadership, and skills, as a tiny pixel RPG.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+:root {
+  --bd: #0e2a1f;
+  --space1: #04201a;
+  --space2: #0c5a3d;
+  --lav: #e8f8ec;
+  --lav2: #bfe5c9;
+  --acc: #7be0a0;
+  --acc-dk: #4cbf7c;
+  --floor: #d6f5df;
+  --floor-dot: #8fd8a8;
+  --wall: #4fae7c;
+  --wall-dk: #3b9466;
+  --gold: #d9e68f;
+  --gold-dk: #a9b84a;
+  --trim-lt: #f0f7c6;
+  --navy: #124d36;
+  --navy-dk: #0b3624;
+  --navy-line: #2f8a62;
+  --white: #f2fff6;
+  --cyan: #6ff2c4;
+  --green: #5be37a;
+  --plate: #1f7a52;
+  --plate-dk: #165c3e;
+  --link: #1f7a52;
+  --soft: #d9f7e3;
+  --font: "Pixelify Sans", "Trebuchet MS", "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font);
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: var(--bd);
+  background-color: var(--space2);
+  background-image:
+    radial-gradient(#fff 1.5px, transparent 2px),
+    radial-gradient(#b8f0cf 1px, transparent 1.5px),
+    radial-gradient(#fff 1px, transparent 1.5px),
+    linear-gradient(180deg, var(--space1), var(--space2) 40%, var(--space1));
+  background-size: 97px 83px, 61px 71px, 139px 127px, 100% 100%;
+  background-position: 13px 27px, 40px 5px, 70px 90px, 0 0;
+  background-attachment: fixed;
+}
+
+.wrap { width: min(980px, calc(100% - 2.5rem)); margin: 0 auto; }
+
+.skip { position: absolute; left: -999px; top: 0; background: var(--white); color: var(--bd); padding: .5rem 1rem; z-index: 200; }
+.skip:focus { left: 8px; top: 8px; }
+
+a { color: var(--link); }
+:focus-visible { outline: 3px dashed var(--cyan); outline-offset: 3px; }
+
+h1, h2, h3 { font-weight: 700; margin: 0; }
+img, svg { image-rendering: pixelated; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* stepped (notched-corner) pixel border */
+.px {
+  margin: 4px;
+  box-shadow: 0 -4px 0 0 var(--bd), 0 4px 0 0 var(--bd), -4px 0 0 0 var(--bd), 4px 0 0 0 var(--bd);
+}
+
+/* doodles in the sky */
+.doodles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.doodles svg { position: absolute; fill: none; stroke: #fff; stroke-width: 2; opacity: .75; }
+.doodles .d1 { left: 2vw; top: 18vh; width: 90px; }
+.doodles .d2 { right: 2vw; top: 42vh; width: 110px; }
+.doodles .d3 { left: 3vw; bottom: 8vh; width: 70px; }
+@media (max-width: 1150px) { .doodles { display: none; } }
+
+.wrap, .footer { position: relative; z-index: 1; }
+
+/* ---------- title ---------- */
+.title { text-align: center; padding: 2.4rem 0 1.4rem; color: #fff; }
+.kicker { display: inline-block; background: var(--bd); color: var(--cyan); padding: .1rem .8rem; margin-bottom: .9rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; font-size: .9rem; }
+h1 { font-size: clamp(2.6rem, 10vw, 5rem); line-height: 1; letter-spacing: .03em; text-shadow: 4px 4px 0 var(--acc), 8px 8px 0 var(--bd); }
+.sub { margin: 1.3rem 0 0; font-size: 1.25rem; color: var(--soft); }
+
+/* ---------- room scene ---------- */
+.stage { filter: drop-shadow(6px 8px 0 rgba(0,0,0,.28)); }
+.scene {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--floor);
+  background-image:
+    radial-gradient(var(--floor-dot) 1.5px, transparent 2px),
+    linear-gradient(0deg, rgba(255,255,255,.35) 1px, transparent 1px);
+  background-size: 44px 40px, 100% 40px;
+  cursor: crosshair;
+  user-select: none;
+}
+.wall { position: absolute; left: 0; right: 0; top: 0; height: 40%; background: var(--wall); background-image: radial-gradient(var(--wall-dk) 1.6px, transparent 2px); background-size: 14px 14px; }
+.trim { position: absolute; left: 0; right: 0; top: 40%; height: 7%; background: var(--gold); background-image: repeating-linear-gradient(90deg, transparent 0 22px, var(--gold-dk) 22px 24px); border-top: 4px solid var(--trim-lt); border-bottom: 4px solid var(--gold-dk); }
+.floor-deco { position: absolute; width: 4%; min-width: 22px; pointer-events: none; }
+.floor-deco svg { display: block; width: 100%; height: auto; }
+
+/* props on the wall shelf */
+.prop {
+  position: absolute; top: 47%; width: 9.5%; min-width: 34px;
+  transform: translate(-50%, -100%);
+  padding: 0; border: 0; background: none; cursor: pointer; font-family: var(--font); color: var(--bd);
+  z-index: 3;
+}
+.prop svg { display: block; width: 100%; height: auto; transition: transform .1s; }
+.prop:hover svg, .prop:focus-visible svg, .prop.near svg { transform: translateY(-4px); }
+.prop:hover svg, .prop:focus-visible svg, .prop.near svg, .prop.active svg {
+  filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff);
+}
+.plabel { display: block; font-size: clamp(9px, 1.5vw, 14px); font-weight: 700; line-height: 1.1; padding-top: 3px; text-align: center; white-space: nowrap; }
+
+/* player */
+.player {
+  position: absolute; z-index: 4; width: 6%; min-width: 26px;
+  left: 50%; top: 80%;
+  transform: translate(-50%, -100%);
+  transition: left var(--d, .2s) linear, top var(--d, .2s) linear;
+  pointer-events: none;
+}
+.player .spr { display: block; width: 100%; height: auto; }
+.player.left .spr { transform: scaleX(-1); }
+.player::after { content: ""; position: absolute; left: 10%; right: 10%; bottom: -4%; height: 10%; background: rgba(14,42,31,.25); border-radius: 50%; z-index: -1; }
+.player.walking .spr { animation: bob .28s steps(2) infinite; }
+@keyframes bob { 50% { transform: translateY(-4%); } }
+.player.left.walking .spr { animation-name: bobL; }
+@keyframes bobL { 0%,100% { transform: scaleX(-1); } 50% { transform: scaleX(-1) translateY(-4%); } }
+.prompt { display: none; position: absolute; top: 0; left: 108%; background: #06150e; color: #fff; border: 2px solid #fff; padding: 0 .45rem; font-size: .85rem; font-weight: 700; line-height: 1.3; }
+.player.near .prompt { display: block; }
+
+.hint { margin: .7rem 0 0; text-align: center; color: var(--soft); font-size: 1rem; }
+.hint kbd { font-family: var(--font); background: var(--white); color: var(--bd); padding: 0 .4rem; border: 2px solid var(--bd); }
+
+/* ---------- dialogue box ---------- */
+.dialogue {
+  position: relative; display: block; width: calc(100% - 8px); margin: 2.6rem 4px 0;
+  text-align: left; font-family: var(--font); font-size: 1.25rem; line-height: 1.5; color: #fff;
+  background: var(--navy);
+  padding: 1.4rem 3rem 1.4rem 1.4rem; min-height: 8rem;
+  border: 0; cursor: pointer;
+  box-shadow: 0 -4px 0 0 var(--white), 0 4px 0 0 var(--white), -4px 0 0 0 var(--white), 4px 0 0 0 var(--white), inset 0 0 0 4px var(--navy-dk), inset 0 0 0 6px var(--navy-line);
+  filter: drop-shadow(6px 8px 0 rgba(0,0,0,.28));
+}
+.nameplate { position: absolute; left: 12px; top: -34px; display: flex; align-items: stretch; gap: 6px; }
+.nameplate .heart { background: var(--navy-dk); border: 3px solid var(--white); padding: 4px 6px; display: grid; place-items: center; }
+.nameplate .heart svg { width: 22px; height: auto; display: block; }
+.nameplate .nm { background: #cfd3dc; color: #2b2f3a; font-weight: 700; font-size: 1.15rem; padding: 0 .9rem; border: 3px solid var(--white); line-height: 1.8; box-shadow: inset 0 -3px 0 #a9aebb; }
+.dlg-text { display: block; min-height: 3.4rem; }
+.dlg-next { position: absolute; right: 14px; bottom: 12px; width: 26px; height: 26px; border: 2px solid var(--white); background: var(--navy-dk); color: #fff; display: none; place-items: center; font-size: .85rem; font-weight: 700; animation: blink 1s steps(2) infinite; }
+.dlg-next.on { display: grid; }
+@keyframes blink { 50% { opacity: .25; } }
+
+/* ---------- command menu ---------- */
+.menu { margin: 1.8rem 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: .9rem; }
+.cmd {
+  font-family: var(--font); font-weight: 700; font-size: 1.1rem; color: var(--bd);
+  background: var(--lav); border: 0; padding: .6rem .5rem; cursor: pointer; text-align: center;
+  margin: 4px;
+  box-shadow: 0 -4px 0 0 var(--bd), 0 4px 0 0 var(--bd), -4px 0 0 0 var(--bd), 4px 0 0 0 var(--bd), inset 0 -4px 0 var(--lav2);
+}
+.cmd kbd { font-family: var(--font); background: var(--bd); color: #fff; padding: 0 .35rem; margin-right: .4rem; font-size: .9rem; }
+.cmd:hover { background: #fff; }
+.cmd[aria-current="true"] { background: var(--acc); }
+.cmd[aria-current="true"]::before { content: "\25B6\00a0"; }
+
+/* ---------- screens (windows) ---------- */
+.screens { margin-top: 2.2rem; scroll-margin-top: 1rem; }
+.win {
+  position: relative; background: var(--lav); padding: 1.6rem 1.5rem 1.5rem; margin: 4px 4px 2.5rem;
+  box-shadow: 0 -4px 0 0 var(--bd), 0 4px 0 0 var(--bd), -4px 0 0 0 var(--bd), 4px 0 0 0 var(--bd), inset 0 0 0 4px var(--lav2);
+  filter: drop-shadow(6px 8px 0 rgba(0,0,0,.25));
+}
+.js .screen { display: none; }
+.js .screen.active { display: block; animation: pop .25s steps(4) both; }
+@keyframes pop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.plate {
+  display: inline-block; font-size: 1.35rem; color: #fff; background: var(--plate); padding: 0 1rem; margin: 0 0 1.2rem;
+  box-shadow: 0 -3px 0 0 var(--bd), 0 3px 0 0 var(--bd), -3px 0 0 0 var(--bd), 3px 0 0 0 var(--bd), inset 0 -4px 0 var(--plate-dk);
+  text-shadow: 2px 2px 0 var(--bd);
+}
+h3 { font-size: 1.25rem; margin: 0 0 .5rem; color: var(--plate); }
+.win p { margin: 0 0 .8rem; }
+.win p:last-child { margin-bottom: 0; }
+
+.card { background: #fff; padding: 1rem 1.1rem; margin: 3px; box-shadow: 0 -3px 0 0 var(--bd), 0 3px 0 0 var(--bd), -3px 0 0 0 var(--bd), 3px 0 0 0 var(--bd); }
+
+.status-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); gap: 1.8rem; align-items: start; margin-bottom: 1.6rem; }
+.portrait { background: var(--lav2); padding: 6px; }
+.portrait-box {
+  aspect-ratio: 1; display: grid; place-items: center; text-align: center; padding: .8rem; font-weight: 700;
+  background: repeating-conic-gradient(var(--wall) 0 25%, var(--wall-dk) 0 50%) 0 0 / 22px 22px;
+  border: 4px dashed var(--bd);
+}
+.portrait-box span { background: #fff; border: 3px solid var(--bd); padding: .2rem .7rem; }
+.portrait img { display: block; width: 100%; height: auto; }
+.who { font-size: 1.1rem; color: var(--plate); font-weight: 600; }
+.who b { font-size: 1.5rem; color: var(--bd); }
+
+.meters { list-style: none; padding: 0; margin: 1.1rem 0 0; display: grid; gap: .7rem; }
+.meters li { display: grid; grid-template-columns: 8.5rem 1fr 3rem; gap: .7rem; align-items: center; }
+.mlabel { font-weight: 700; }
+.meters b { text-align: right; font-size: 1.25rem; }
+.bar { height: 20px; background: #fff; border: 3px solid var(--bd); }
+.bar i { display: block; height: 100%; background: repeating-linear-gradient(90deg, var(--green) 0 8px, #34b855 8px 10px); }
+.pips { display: flex; gap: 6px; }
+.pips span { width: 20px; height: 20px; background: var(--acc); border: 3px solid var(--bd); }
+
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.3rem; }
+.quest { display: flex; flex-direction: column; }
+.quest .btn { align-self: flex-start; margin-top: auto; }
+.quest p:nth-last-of-type(1) { margin-bottom: 1rem; }
+.tag { display: inline-block; font-weight: 700; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; background: var(--cyan); color: var(--bd); padding: 0 .55rem; margin-bottom: .6rem; border: 2px solid var(--bd); }
+.tag.date { background: var(--gold); }
+
+.timeline { display: grid; gap: 1.3rem; }
+.timeline ul { list-style: none; margin: 0; padding: 0; }
+.timeline li { position: relative; padding-left: 1.5rem; margin-bottom: .5rem; }
+.timeline li::before { content: ""; position: absolute; left: 0; top: .5em; width: 10px; height: 10px; background: var(--acc); border: 2px solid var(--bd); }
+
+.chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.chips li { background: var(--lav2); border: 3px solid var(--bd); padding: .1rem .7rem; font-weight: 600; box-shadow: inset 2px 2px 0 rgba(14,42,31,.2); }
+
+.links { list-style: none; padding: 0; margin: .7rem 0 0; display: grid; gap: .5rem; font-weight: 600; font-size: 1.2rem; }
+.links a { word-break: break-word; }
+.edu-list { display: grid; gap: 1rem; }
+
+.btn {
+  display: inline-block; text-decoration: none; font-family: var(--font); font-weight: 700; font-size: 1.05rem; color: var(--bd);
+  background: var(--acc); padding: .45rem 1.1rem; margin: 3px; border: 0; cursor: pointer;
+  box-shadow: 0 -3px 0 0 var(--bd), 0 3px 0 0 var(--bd), -3px 0 0 0 var(--bd), 3px 0 0 0 var(--bd), inset 0 -4px 0 var(--acc-dk);
+}
+.btn:hover { background: #98edb6; transform: translateY(-2px); }
+.btn:active { transform: translateY(2px); }
+.btn.alt { background: var(--cyan); box-shadow: 0 -3px 0 0 var(--bd), 0 3px 0 0 var(--bd), -3px 0 0 0 var(--bd), 3px 0 0 0 var(--bd), inset 0 -4px 0 #35c3dc; }
+.back { margin-top: 1.4rem; }
+html:not(.js) .back { display: none; }
+
+html:not(.js) .stage, html:not(.js) .dialogue, html:not(.js) .menu, html:not(.js) .hint { display: none; }
+html:not(.js) .screen { margin-bottom: 2.5rem; }
+
+/* ---------- footer ---------- */
+.footer { text-align: center; color: var(--soft); padding: 1rem 0 3rem; }
+.footer p { margin: .4rem 0; }
+.footer a { color: var(--cyan); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .player.walking .spr, .dlg-next, .js .screen.active { animation: none; }
+  .player { transition: none; }
+  .btn:hover { transform: none; }
+}
+
+@media (min-width: 900px) {
+  .scene { aspect-ratio: 2.15 / 1; }
+  .title { padding: 1.6rem 0 1.1rem; }
+  .sub { margin-top: .9rem; }
+  .hint { margin-top: .5rem; }
+  .dialogue { margin-top: 2.3rem; }
+}
+@media (max-width: 800px) {
+  .cards, .status-grid { grid-template-columns: 1fr; }
+  .portrait { max-width: 220px; }
+  .menu { grid-template-columns: repeat(3, 1fr); }
+  .meters li { grid-template-columns: 6.5rem 1fr 2.6rem; }
+}
+@media (max-width: 520px) {
+  body { font-size: 1.05rem; }
+  .menu { grid-template-columns: repeat(2, 1fr); }
+  .dialogue { font-size: 1.1rem; padding: 1.2rem 2.4rem 1.2rem 1rem; }
+  .plabel { font-size: 0; }
+  .plabel::before { content: attr(data-n); font-size: 12px; }
+  .win { padding: 1.3rem 1rem; }
+}
+  </style>
+</head>
+<body>
+  <!-- pixel sprites (original art) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="s-player" viewBox="0 0 12 16" shape-rendering="crispEdges">
+        <rect x="3" y="0" width="6" height="2" fill="#0e2a1f"/>
+        <rect x="2" y="1" width="8" height="4" fill="#0e2a1f"/>
+        <rect x="3" y="3" width="6" height="4" fill="#ffd9b8"/>
+        <rect x="3" y="2" width="6" height="1" fill="#0e2a1f"/>
+        <rect x="4" y="4" width="1" height="2" fill="#0e2a1f"/><rect x="7" y="4" width="1" height="2" fill="#0e2a1f"/>
+        <rect x="3" y="6" width="1" height="1" fill="#ff9fb8"/><rect x="8" y="6" width="1" height="1" fill="#ff9fb8"/>
+        <rect x="3" y="7" width="6" height="5" fill="#ff8fb8"/>
+        <rect x="2" y="8" width="1" height="3" fill="#ff8fb8"/><rect x="9" y="8" width="1" height="3" fill="#ff8fb8"/>
+        <rect x="2" y="11" width="1" height="1" fill="#ffd9b8"/><rect x="9" y="11" width="1" height="1" fill="#ffd9b8"/>
+        <rect x="5" y="8" width="2" height="2" fill="#ffd98a"/>
+        <rect x="4" y="12" width="2" height="3" fill="#0e2a1f"/><rect x="6" y="12" width="2" height="3" fill="#0e2a1f"/>
+        <rect x="3" y="15" width="3" height="1" fill="#ffd98a"/><rect x="6" y="15" width="3" height="1" fill="#ffd98a"/>
+      </symbol>
+      <symbol id="s-mirror" viewBox="0 0 16 16" shape-rendering="crispEdges">
+        <rect x="2" y="0" width="12" height="14" fill="#0e2a1f"/>
+        <rect x="3" y="1" width="10" height="12" fill="#e0a93a"/>
+        <rect x="4" y="2" width="8" height="10" fill="#c8f5e0"/>
+        <rect x="5" y="3" width="2" height="1" fill="#fff"/><rect x="6" y="4" width="2" height="1" fill="#fff"/><rect x="7" y="5" width="1" height="1" fill="#fff"/>
+        <rect x="9" y="9" width="2" height="1" fill="#8fd9b4"/>
+        <rect x="4" y="14" width="2" height="2" fill="#0e2a1f"/><rect x="10" y="14" width="2" height="2" fill="#0e2a1f"/>
+      </symbol>
+      <symbol id="s-monitor" viewBox="0 0 16 16" shape-rendering="crispEdges">
+        <rect x="0" y="0" width="16" height="12" fill="#0e2a1f"/>
+        <rect x="1" y="1" width="14" height="10" fill="#d8f5e3"/>
+        <rect x="2" y="2" width="12" height="8" fill="#8ff5c0"/>
+        <rect x="3" y="3" width="6" height="1" fill="#0e2a1f"/><rect x="3" y="5" width="8" height="1" fill="#0e2a1f"/><rect x="3" y="7" width="4" height="1" fill="#0e2a1f"/>
+        <rect x="11" y="7" width="2" height="2" fill="#ffd98a"/>
+        <rect x="6" y="12" width="4" height="2" fill="#0e2a1f"/><rect x="4" y="14" width="8" height="2" fill="#0e2a1f"/>
+      </symbol>
+      <symbol id="s-books" viewBox="0 0 16 16" shape-rendering="crispEdges">
+        <rect x="0" y="10" width="16" height="6" fill="#0e2a1f"/>
+        <rect x="1" y="11" width="14" height="4" fill="#7be0a0"/>
+        <rect x="1" y="12" width="3" height="1" fill="#fff"/><rect x="12" y="13" width="2" height="1" fill="#fff"/>
+        <rect x="1" y="5" width="13" height="6" fill="#0e2a1f"/>
+        <rect x="2" y="6" width="11" height="4" fill="#3fb5a0"/>
+        <rect x="3" y="7" width="4" height="1" fill="#fff"/>
+        <rect x="2" y="0" width="11" height="6" fill="#0e2a1f"/>
+        <rect x="3" y="1" width="9" height="4" fill="#ffd23f"/>
+        <rect x="4" y="2" width="3" height="1" fill="#fff"/>
+      </symbol>
+      <symbol id="s-chest" viewBox="0 0 16 16" shape-rendering="crispEdges">
+        <rect x="0" y="3" width="16" height="13" fill="#0e2a1f"/>
+        <rect x="1" y="4" width="14" height="4" fill="#d98b3d"/>
+        <rect x="1" y="9" width="14" height="6" fill="#b9702f"/>
+        <rect x="1" y="8" width="14" height="1" fill="#5a2d10"/>
+        <rect x="3" y="4" width="1" height="11" fill="#5a2d10"/><rect x="12" y="4" width="1" height="11" fill="#5a2d10"/>
+        <rect x="7" y="7" width="2" height="4" fill="#ffd23f"/><rect x="7" y="9" width="2" height="1" fill="#e0a93a"/>
+        <rect x="2" y="5" width="3" height="1" fill="#f0b46a"/>
+      </symbol>
+      <symbol id="s-mail" viewBox="0 0 16 16" shape-rendering="crispEdges">
+        <rect x="7" y="10" width="2" height="6" fill="#8a5a1e"/>
+        <rect x="1" y="2" width="14" height="9" fill="#0e2a1f"/>
+        <rect x="2" y="3" width="12" height="7" fill="#3fb5a0"/>
+        <rect x="4" y="6" width="8" height="1" fill="#0e2a1f"/>
+        <rect x="2" y="3" width="12" height="1" fill="#7fd9c8"/>
+        <rect x="12" y="0" width="3" height="4" fill="#0e2a1f"/><rect x="13" y="1" width="1" height="2" fill="#ff5a5a"/>
+      </symbol>
+      <symbol id="s-heart" viewBox="0 0 7 6" shape-rendering="crispEdges">
+        <rect x="1" y="0" width="2" height="1" fill="#5be37a"/><rect x="4" y="0" width="2" height="1" fill="#5be37a"/>
+        <rect x="0" y="1" width="7" height="2" fill="#5be37a"/>
+        <rect x="1" y="3" width="5" height="1" fill="#5be37a"/>
+        <rect x="2" y="4" width="3" height="1" fill="#5be37a"/>
+        <rect x="3" y="5" width="1" height="1" fill="#5be37a"/>
+        <rect x="1" y="1" width="1" height="1" fill="#b9ffc9"/>
+      </symbol>
+      <symbol id="s-flower" viewBox="0 0 12 14" shape-rendering="crispEdges">
+        <rect x="5" y="6" width="2" height="8" fill="#3e8a22"/>
+        <rect x="2" y="9" width="3" height="2" fill="#6cc13b"/><rect x="7" y="8" width="3" height="2" fill="#6cc13b"/>
+        <rect x="5" y="0" width="2" height="2" fill="#ff7aa8"/><rect x="5" y="4" width="2" height="2" fill="#ff7aa8"/>
+        <rect x="3" y="2" width="2" height="2" fill="#ff7aa8"/><rect x="7" y="2" width="2" height="2" fill="#ff7aa8"/>
+        <rect x="5" y="2" width="2" height="2" fill="#ffd23f"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="doodles" aria-hidden="true">
+    <svg class="d1" viewBox="0 0 90 70"><circle cx="40" cy="35" r="18"/><ellipse cx="40" cy="35" rx="34" ry="9" transform="rotate(-18 40 35)"/><path d="M78 6v8M74 10h8"/></svg>
+    <svg class="d2" viewBox="0 0 110 70"><path d="M20 40c0-14 70-14 70 0 0 8-20 12-35 12S20 48 20 40z"/><path d="M42 30c0-12 26-12 26 0"/><path d="M30 60l-6 8M55 54v10M80 60l6 8"/></svg>
+    <svg class="d3" viewBox="0 0 70 70"><path d="M35 4v22M24 15h22M12 50v14M5 57h14"/></svg>
+  </div>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="wrap title">
+    <span class="kicker">&#9654; New game</span>
+    <h1>Reem Amro</h1>
+    <p class="sub">A portfolio RPG &middot; Electrical &amp; Computer Engineering @ UC Berkeley</p>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="stage">
+      <div class="scene px" id="scene" tabindex="0" role="group" aria-label="Pixel room. Use the arrow keys to walk, E to interact, or use the menu below.">
+        <div class="wall"></div>
+        <div class="trim"></div>
+
+        <div class="floor-deco" style="left:6%;top:70%" aria-hidden="true"><svg viewBox="0 0 12 14"><use href="#s-flower"/></svg></div>
+        <div class="floor-deco" style="left:90%;top:62%" aria-hidden="true"><svg viewBox="0 0 12 14"><use href="#s-flower"/></svg></div>
+        <div class="floor-deco" style="left:80%;top:84%" aria-hidden="true"><svg viewBox="0 0 12 14"><use href="#s-flower"/></svg></div>
+
+        <button class="prop" type="button" data-go="status" data-x="12" style="left:12%" aria-label="Status (press 1)">
+          <svg viewBox="0 0 16 16"><use href="#s-mirror"/></svg><span class="plabel" data-n="1">1 Status</span>
+        </button>
+        <button class="prop" type="button" data-go="quests" data-x="31" style="left:31%" aria-label="Quests (press 2)">
+          <svg viewBox="0 0 16 16"><use href="#s-monitor"/></svg><span class="plabel" data-n="2">2 Quests</span>
+        </button>
+        <button class="prop" type="button" data-go="journal" data-x="50" style="left:50%" aria-label="Journal (press 3)">
+          <svg viewBox="0 0 16 16"><use href="#s-books"/></svg><span class="plabel" data-n="3">3 Journal</span>
+        </button>
+        <button class="prop" type="button" data-go="inventory" data-x="69" style="left:69%" aria-label="Inventory (press 4)">
+          <svg viewBox="0 0 16 16"><use href="#s-chest"/></svg><span class="plabel" data-n="4">4 Inventory</span>
+        </button>
+        <button class="prop" type="button" data-go="mail" data-x="88" style="left:88%" aria-label="Mail (press 5)">
+          <svg viewBox="0 0 16 16"><use href="#s-mail"/></svg><span class="plabel" data-n="5">5 Mail</span>
+        </button>
+
+        <div class="player" id="player" aria-hidden="true">
+          <span class="prompt">E</span>
+          <svg class="spr" viewBox="0 0 12 16"><use href="#s-player"/></svg>
+        </div>
+      </div>
+    </div>
+    <p class="hint">Walk with <kbd>&larr;</kbd><kbd>&uarr;</kbd><kbd>&darr;</kbd><kbd>&rarr;</kbd> or <kbd>WASD</kbd>, press <kbd>E</kbd> by an object, or tap one.</p>
+
+    <button class="dialogue" id="dlg" type="button" aria-label="Dialogue. Activate to continue.">
+      <span class="nameplate" aria-hidden="true">
+        <span class="heart"><svg viewBox="0 0 7 6"><use href="#s-heart"/></svg></span>
+        <span class="nm">Reem</span>
+      </span>
+      <span class="dlg-text" id="dlgText" aria-hidden="true"></span>
+      <span class="dlg-next" id="dlgNext" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="sr-only" id="live" aria-live="polite"></div>
+
+    <nav class="menu" aria-label="Game menu">
+      <button class="cmd" type="button" data-go="status"><kbd>1</kbd>Status</button>
+      <button class="cmd" type="button" data-go="quests"><kbd>2</kbd>Quests</button>
+      <button class="cmd" type="button" data-go="journal"><kbd>3</kbd>Journal</button>
+      <button class="cmd" type="button" data-go="inventory"><kbd>4</kbd>Inventory</button>
+      <button class="cmd" type="button" data-go="mail"><kbd>5</kbd>Mail</button>
+    </nav>
+
+    <div class="screens" id="screens">
+
+      <section class="screen win active" id="status" aria-labelledby="h-status">
+        <h2 class="plate" id="h-status">Status</h2>
+        <div class="status-grid">
+          <div class="portrait px">
+            <!-- Replace this block with: <img src="photo.jpg" alt="Reem Amro"> -->
+            <div class="portrait-box" role="img" aria-label="Photo placeholder"><span>ADD PHOTO</span></div>
+          </div>
+          <div>
+            <p class="who"><b>Reem Amro</b><br>Class: Electrical &amp; Computer Engineer<br>Guild: UC Berkeley (transfer student)</p>
+            <p>I'm a first-year Berkeley transfer studying Electrical and Computer Engineering. I started in Computer Science at Merced College, where I founded a robotics club and an astronomy club.</p>
+            <p>I like projects where software meets the physical world, and I like making them fun to use.</p>
+            <ul class="meters" aria-label="Stats">
+              <li><span class="mlabel">GPA</span><div class="bar" role="img" aria-label="GPA 3.97 out of 4.0"><i style="width:99.25%"></i></div><b>3.97</b></li>
+              <li><span class="mlabel">Clubs founded</span><div class="pips" role="img" aria-label="2 clubs founded"><span></span><span></span></div><b>2</b></li>
+              <li><span class="mlabel">FTC comps</span><div class="pips" role="img" aria-label="3 FIRST Tech Challenge competitions"><span></span><span></span><span></span></div><b>3</b></li>
+            </ul>
+          </div>
+        </div>
+        <h3>Records (Education)</h3>
+        <div class="edu-list">
+          <div class="card"><b>UC Berkeley</b>: B.S. Electrical and Computer Engineering, Expected May 2030</div>
+          <div class="card"><b>Merced College</b>: A.S. Computer Science, GPA 3.97/4.0, May 2026</div>
+        </div>
+        <button class="btn small back" type="button" data-back>Back to the room &#9650;</button>
+      </section>
+
+      <section class="screen win" id="quests" aria-labelledby="h-quests">
+        <h2 class="plate" id="h-quests">Quests (Projects)</h2>
+        <div class="cards">
+          <article class="card quest">
+            <span class="tag">HTML / CSS / JS</span>
+            <h3>Connecting Bears</h3>
+            <p>An interactive Berkeley personality quiz with 6 scenarios, 16 branching follow-ups, and 5 result types. Navigation and scoring run from a single answer-history stack, so Back reverts both the screen and the score.</p>
+            <p>Built as a single HTML file with no JavaScript libraries, using hand-built SVG art, canvas confetti, Web Audio sound effects, and a shareable result card.</p>
+            <a class="btn small" href="https://github.com/reemamro08" target="_blank" rel="noopener">Play / View Code</a>
+            <!-- TODO: replace the link above with the live quiz URL or the repo URL -->
+          </article>
+          <article class="card quest">
+            <span class="tag">Arduino / C++</span>
+            <h3>Digital Combination Lock</h3>
+            <p>A keypad-activated door lock built on an Arduino Uno with a 4x4 keypad, I2C LCD, piezo buzzer, and servo motor.</p>
+            <p>Passcode entry is masked on the LCD, the buzzer signals right or wrong codes, and one code locks and unlocks the servo between two positions.</p>
+            <a class="btn small" href="https://github.com/reemamro08" target="_blank" rel="noopener">View Code</a>
+            <!-- TODO: replace with the lock repo URL or Tinkercad link -->
+          </article>
+          <article class="card quest">
+            <span class="tag">HTML / CSS / JS</span>
+            <h3>This Portfolio</h3>
+            <p>A responsive pixel-RPG portfolio hand-coded in HTML, CSS, and JavaScript, with SVG sprites, a walkable room, and a typewriter dialogue box, hosted on GitHub Pages.</p>
+            <a class="btn small" href="https://github.com/reemamro08" target="_blank" rel="noopener">View Code</a>
+          </article>
+        </div>
+        <button class="btn small back" type="button" data-back>Back to the room &#9650;</button>
+      </section>
+
+      <section class="screen win" id="journal" aria-labelledby="h-journal">
+        <h2 class="plate" id="h-journal">Journal (Leadership)</h2>
+        <div class="timeline">
+          <article class="card">
+            <span class="tag date">Aug 2025 &ndash; May 2026 &middot; Merced, CA</span>
+            <h3>Robotics Club: Founder, President &amp; Team Captain</h3>
+            <ul>
+              <li>Founded the club and grew it to 13+ members, captaining an 8-member team through 3 FIRST Tech Challenge competitions.</li>
+              <li>Built a competition robot with working autonomous and driver-controlled modes, programming in Java and designing components in CAD.</li>
+              <li>Grew club visibility to 75k+ views and 2,500+ likes across 6+ posts, with weekly workshops of 10+ attendees.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="tag date">Aug 2025 &ndash; May 2026 &middot; Merced, CA</span>
+            <h3>Astronomy Club: Founder, President &amp; Social Media Director</h3>
+            <ul>
+              <li>Revived a defunct club to 17+ weekly attendees, hosting 4+ events and reaching 8,500+ views across 6+ posts.</li>
+            </ul>
+          </article>
+        </div>
+        <button class="btn small back" type="button" data-back>Back to the room &#9650;</button>
+      </section>
+
+      <section class="screen win" id="inventory" aria-labelledby="h-inventory">
+        <h2 class="plate" id="h-inventory">Inventory (Skills)</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Languages</h3>
+            <ul class="chips"><li>Python</li><li>C++</li><li>Java</li><li>JavaScript</li><li>HTML</li><li>CSS</li><li>Assembly</li></ul>
+          </div>
+          <div class="card">
+            <h3>Tools</h3>
+            <ul class="chips"><li>Arduino</li><li>Git</li><li>CAD</li><li>Tinkercad</li></ul>
+          </div>
+          <div class="card">
+            <h3>Design</h3>
+            <ul class="chips"><li>Photoshop</li><li>Maya</li><li>Canva</li><li>Procreate</li></ul>
+          </div>
+        </div>
+        <button class="btn small back" type="button" data-back>Back to the room &#9650;</button>
+      </section>
+
+      <section class="screen win" id="mail" aria-labelledby="h-mail">
+        <h2 class="plate" id="h-mail">Mail (Contact)</h2>
+        <div class="card">
+          <p>Want to team up? Send me a letter.</p>
+          <ul class="links">
+            <li><a href="mailto:reemamro676@gmail.com">reemamro676@gmail.com</a></li>
+            <li><a href="https://linkedin.com/in/reemamro08" target="_blank" rel="noopener">linkedin.com/in/reemamro08</a></li>
+            <li><a href="https://github.com/reemamro08" target="_blank" rel="noopener">github.com/reemamro08</a></li>
+          </ul>
+        </div>
+        <button class="btn small back" type="button" data-back>Back to the room &#9650;</button>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer wrap">
+    <p>GAME OVER? <a href="#main">CONTINUE &#9650;</a></p>
+    <p>&copy; 2026 Reem Amro</p>
+  </footer>
+
+  <script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
+
+  var scene = $('#scene'), player = $('#player'), live = $('#live');
+  var dlg = $('#dlg'), txt = $('#dlgText'), nxt = $('#dlgNext');
+  var props = $$('.prop'), cmds = $$('.cmd'), screens = $$('.screen');
+  var ORDER = ['status', 'quests', 'journal', 'inventory', 'mail'];
+
+  var INTRO = [
+    "Hi! I'm Reem, an Electrical and Computer Engineering student at UC Berkeley.",
+    "I build things that blink, beep, and run in the browser.",
+    "Walk around with the arrow keys, tap an object, or press 1 to 5 to jump to a screen."
+  ];
+  var LINES = {
+    status:    ["This is my status screen. Transfer GPA 3.97, two clubs founded, three FIRST Tech Challenge competitions."],
+    quests:    ["These are my quests so far.", "A personality quiz, a keypad door lock, and this very portfolio."],
+    journal:   ["My journal. I founded a robotics club and an astronomy club at Merced College."],
+    inventory: ["My inventory: programming languages, build tools, and design software."],
+    mail:      ["Want to team up? Send me a letter!"]
+  };
+
+  /* ---------- dialogue (typewriter) ---------- */
+  var queue = [], full = '', idx = 0, timer = null, typing = false;
+
+  function finishTyping() {
+    clearInterval(timer); typing = false;
+    txt.textContent = full;
+    nxt.classList.toggle('on', queue.length > 0);
+  }
+  function say(t) {
+    clearInterval(timer);
+    full = t; idx = 0; txt.textContent = ''; nxt.classList.remove('on');
+    live.textContent = t;
+    if (reduce) { finishTyping(); return; }
+    typing = true;
+    timer = setInterval(function () {
+      idx++;
+      txt.textContent = full.slice(0, idx);
+      if (idx >= full.length) finishTyping();
+    }, 22);
+  }
+  function setLines(arr) { queue = arr.slice(); say(queue.shift()); }
+  function advance() {
+    if (typing) { finishTyping(); return; }
+    if (queue.length) say(queue.shift());
+  }
+  dlg.addEventListener('click', advance);
+
+  /* ---------- screens ---------- */
+  function openScreen(id, opts) {
+    opts = opts || {};
+    if (!LINES[id]) return;
+    screens.forEach(function (s) { s.classList.toggle('active', s.id === id); });
+    cmds.forEach(function (c) { c.setAttribute('aria-current', c.getAttribute('data-go') === id ? 'true' : 'false'); });
+    props.forEach(function (p) { p.classList.toggle('active', p.getAttribute('data-go') === id); });
+    setLines(opts.lines || LINES[id]);
+    if (!opts.init) { try { history.replaceState(null, '', '#' + id); } catch (e) {} }
+    if (opts.scroll) {
+      $('#screens').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+
+  /* ---------- player movement ---------- */
+  var pos = { x: 50, y: 80 }, nearId = null, walkTimer = null;
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+  function checkNear() {
+    nearId = null;
+    props.forEach(function (p) {
+      var px = parseFloat(p.getAttribute('data-x'));
+      var near = pos.y <= 66 && Math.abs(pos.x - px) <= 8;
+      p.classList.toggle('near', near);
+      if (near) nearId = p.getAttribute('data-go');
+    });
+    player.classList.toggle('near', !!nearId);
+  }
+  function place(x, y, ms) {
+    if (x < pos.x - 0.2) player.classList.add('left');
+    else if (x > pos.x + 0.2) player.classList.remove('left');
+    pos.x = clamp(x, 5, 95);
+    pos.y = clamp(y, 54, 96);
+    var d = reduce ? 0 : ms;
+    player.style.setProperty('--d', d + 'ms');
+    player.style.left = pos.x + '%';
+    player.style.top = pos.y + '%';
+    player.classList.add('walking');
+    clearTimeout(walkTimer);
+    walkTimer = setTimeout(function () { player.classList.remove('walking'); }, d + 60);
+    checkNear();
+  }
+  function walkTo(x, y) {
+    var dist = Math.sqrt(Math.pow(x - pos.x, 2) + Math.pow((y - pos.y) * 1.6, 2));
+    var ms = clamp(dist * 18, 160, 1300);
+    place(x, y, ms);
+    return reduce ? 0 : ms;
+  }
+  function interact() { if (nearId) openScreen(nearId, { scroll: true }); }
+
+  scene.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key, handled = true;
+    if (k === 'ArrowLeft' || k === 'a' || k === 'A') place(pos.x - 3.2, pos.y, 120);
+    else if (k === 'ArrowRight' || k === 'd' || k === 'D') place(pos.x + 3.2, pos.y, 120);
+    else if (k === 'ArrowUp' || k === 'w' || k === 'W') place(pos.x, pos.y - 4, 120);
+    else if (k === 'ArrowDown' || k === 's' || k === 'S') place(pos.x, pos.y + 4, 120);
+    else if ((k === 'e' || k === 'E' || k === 'Enter' || k === ' ') && e.target === scene) interact();
+    else handled = false;
+    if (handled) e.preventDefault();
+  });
+
+  props.forEach(function (p) {
+    p.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var id = p.getAttribute('data-go');
+      var ms = walkTo(parseFloat(p.getAttribute('data-x')), 60);
+      setTimeout(function () { openScreen(id, { scroll: true }); }, ms);
+    });
+  });
+  scene.addEventListener('pointerdown', function (e) {
+    if (e.target.closest && e.target.closest('.prop')) return;
+    var r = scene.getBoundingClientRect();
+    walkTo(((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100);
+  });
+
+  /* ---------- menu + shortcuts ---------- */
+  cmds.forEach(function (c) {
+    c.addEventListener('click', function () { openScreen(c.getAttribute('data-go'), { scroll: true }); });
+  });
+  $$('[data-back]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      scene.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      scene.focus({ preventScroll: true });
+    });
+  });
+  window.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    var n = parseInt(e.key, 10);
+    if (n >= 1 && n <= ORDER.length) openScreen(ORDER[n - 1], { scroll: true });
+  });
+
+  /* ---------- start ---------- */
+  var start = (location.hash || '').replace('#', '');
+  if (LINES[start]) openScreen(start, { init: true });
+  else openScreen('status', { lines: INTRO, init: true });
+  checkNear();
+})();
+  </script>
+</body>
+</html>
